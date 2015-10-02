@@ -9,16 +9,16 @@
     switch ($op) {
       case '+':
         $nums[] = $num_l + $num_r;
-		break;
+        break;
       case '-':
         $nums[] = $num_l - $num_r;
-		break;
+        break;
       case '*':
         $nums[] = $num_l * $num_r;
-		break;
+        break;
       case '/':
         $nums[] = $num_l / $num_r;
-		break;
+        break;
       default:
         return false;
     }
@@ -35,43 +35,44 @@
     for ($i = 0; $i < $len; $i++) {
       switch ($ch = substr($expr, $i, 1)) {
         case '+':
-		case '-':
-		  if ($num == "") // negative or positive sign
-			$num .= $ch;
-		  else {
-			$nums[] = $num;
-			$num = "";
-			if ($isMulOrDiv) {
-			  if (!processOp($ops, $nums))
-				return 'e';
-			  $isMulOrDiv = false;
-			}
-			$ops[] = $ch;
-		  }
-		  break;
-		case '*':
-		case '/':
-		  if ($num == "")
-			return 'e';
-		  
-		  $nums[] = $num;
-		  $num = "";
-		  if ($isMulOrDiv) {
-			if (!processOp($ops, $nums))
-			  return 'e';
-		  } else
-			$isMulOrDiv = true;
-		  $ops[] = $ch;
-		  break;
-		default: // digit
-		  $num .= $ch;
+        case '-':
+          if ($num == "") // negative or positive sign
+            $num .= $ch;
+          else {
+            $nums[] = $num;
+            $num = "";
+            if ($isMulOrDiv) {
+              if (!processOp($ops, $nums))
+                return 'e';
+              $isMulOrDiv = false;
+            }
+            $ops[] = $ch;
+          }
+          break;
+        case '*':
+        case '/':
+          if ($num == "")
+            return 'e';
+
+          $nums[] = $num;
+          $num = "";
+          if ($isMulOrDiv) {
+            if (!processOp($ops, $nums))
+              return 'e';
+          } else
+            $isMulOrDiv = true;
+
+          $ops[] = $ch;
+          break;
+        default: // digit
+          $num .= $ch;
       }
     }
     if ($num == "")
-		return 'e';
-	else
-		$nums[] = $num;
-	
+      return 'e';
+    else
+      $nums[] = $num;
+
     while (count($ops)) {
       if (!processOp($ops, $nums))
         return 'e';
@@ -94,8 +95,8 @@
       if ($result == 'e')
         $result = $content . "Invalid expression!";       
       else
-        $result = $content . $result;
-	}
+        $result = $content . $expr. " = " . $result;
+    }
   }
 ?>
 
@@ -109,7 +110,7 @@
 
 <body>
   <h1>Calculator</h1>
-  (Ver 0.1 by Siran Shen)
+  (Ver 1.1 by Siran Shen)
   <p>Type an expression in the following box (e.g., 1.2+15*4/10).</p>
 
   <form method="GET">
@@ -124,6 +125,5 @@
     <li>The calculator handles invalid input "gracefully." It does not output PHP error messages.</li>
   </ul>
 
-  <?php echo $result; ?>
-  </body>
+    </body>
 </html>
