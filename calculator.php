@@ -3,7 +3,7 @@
     $op = array_pop($ops);
     $num_r = array_pop($nums);
     $num_l = array_pop($nums);
-    if (!$op or !$num_r or !$num_l)
+    if ($op === NULL or $num_r === NULL or !$num_l === NULL)
       return false;
 
     switch ($op) {
@@ -38,6 +38,8 @@
         case '-':
           if ($num == "") // negative or positive sign
             $num .= $ch;
+          else if ($num == '+' or $num == '-')
+            return 'e';
           else {
             $nums[] = $num;
             $num = "";
@@ -51,7 +53,7 @@
           break;
         case '*':
         case '/':
-          if ($num == "")
+          if ($num === "")
             return 'e';
 
           $nums[] = $num;
@@ -68,7 +70,7 @@
           $num .= $ch;
       }
     }
-    if ($num == "")
+    if ($num === "")
       return 'e';
     else
       $nums[] = $num;
@@ -92,10 +94,12 @@
       $result = $content . "Invalid expression!";
     else {
       $result = computeExpr($expr);
-      if ($result == 'e')
+	  //$result = eval('return '.$expr.';');
+	  if ($result === 'e')
+      //if ($result == false)
         $result = $content . "Invalid expression!";       
       else
-        $result = $content . $expr. " = " . $result;
+        $result = $content . $expr . " = " . $result;
     }
   }
 ?>
@@ -110,7 +114,7 @@
 
 <body>
   <h1>Calculator</h1>
-  (Ver 1.1 by Siran Shen)
+  (Ver 1.2 by Siran Shen)
   <p>Type an expression in the following box (e.g., 1.2+15*4/10).</p>
 
   <form method="GET">
@@ -125,5 +129,6 @@
     <li>The calculator handles invalid input "gracefully." It does not output PHP error messages.</li>
   </ul>
 
-    </body>
+  <?php echo $result; ?>
+  </body>
 </html>
